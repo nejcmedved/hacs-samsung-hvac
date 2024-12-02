@@ -1,0 +1,8 @@
+{
+    "domain": "hacs_samsung_hvac",
+    "name": "Integration blueprint",
+    "codeowners": [
+      "@nejcmedved"
+    ],
+    "version": "0.0.0"
+  }
