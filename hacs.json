@@ -1,5 +1,3 @@
 {
-    "name": "Samsung HVAC integration",
-    "homeassistant": "2024.5",
-    "render_readme": true
+    "name": "Samsung HVAC integration"
 }
