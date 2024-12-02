@@ -1,6 +1,8 @@
 {
     "domain": "hacs_samsung_hvac",
     "name": "Integration blueprint",
+    "documentation": "https://github.com/nejcmedved/hacs-samsung-hvac",
+    "issue_tracker": "https://github.com/nejcmedved/hacs-samsung-hvac/issues",
     "codeowners": [
       "@nejcmedved"
     ],
