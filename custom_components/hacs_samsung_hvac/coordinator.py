@@ -16,6 +16,7 @@ from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, Upda
 
 from .api import API, APIAuthError, Device, DeviceType
 from .const import DEFAULT_SCAN_INTERVAL
+from .heat_pump import HeatPump
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -59,7 +60,7 @@ class ExampleCoordinator(DataUpdateCoordinator):
         )
 
         # Initialise your api here
-        self.api = API(host=self.host, user=self.user, pwd=self.pwd)
+        self.heat_pump = HeatPump(self.host, self.pwd)
 
     async def async_update_data(self):
         """Fetch data from API endpoint.

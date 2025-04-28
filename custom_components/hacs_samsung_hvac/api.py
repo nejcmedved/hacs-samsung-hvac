@@ -16,19 +16,13 @@ class DeviceType(StrEnum):
     """Device types."""
 
     TEMP_SENSOR = "temp_sensor"
-    DOOR_SENSOR = "door_sensor"
     OTHER = "other"
+    BINARY_SENSOR = "binary_sensor"
 
 
 DEVICES = [
-    {"id": 1, "type": DeviceType.TEMP_SENSOR},
-    {"id": 2, "type": DeviceType.TEMP_SENSOR},
-    {"id": 3, "type": DeviceType.TEMP_SENSOR},
-    {"id": 4, "type": DeviceType.TEMP_SENSOR},
-    {"id": 1, "type": DeviceType.DOOR_SENSOR},
-    {"id": 2, "type": DeviceType.DOOR_SENSOR},
-    {"id": 3, "type": DeviceType.DOOR_SENSOR},
-    {"id": 4, "type": DeviceType.DOOR_SENSOR},
+    {"id": 1, "type": DeviceType.TEMP_SENSOR, "name": "Outdoor temperature"},
+    {"id": 2, "type": DeviceType.BINARY_SENSOR, "name": "Communication state"},
 ]
 
 
