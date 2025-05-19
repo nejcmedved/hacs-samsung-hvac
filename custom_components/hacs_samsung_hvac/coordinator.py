@@ -59,7 +59,6 @@ class ExampleCoordinator(DataUpdateCoordinator):
 
         # Initialise your api here
         self.heat_pump = HeatPump(self.host, self.pwd)
-        self.data.sensor_config = SENSORS
 
     async def async_update_data(self):
         """Fetch data from API endpoint.
