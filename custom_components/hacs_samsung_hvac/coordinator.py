@@ -14,9 +14,8 @@ from homeassistant.const import (
 from homeassistant.core import DOMAIN, HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
-from .api import API, APIAuthError, Device, DeviceType
 from .const import DEFAULT_SCAN_INTERVAL
-from .heat_pump import HeatPump
+from .heat_pump import HeatPump, Sensor, SensorData, SENSORS
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -24,9 +23,8 @@ _LOGGER = logging.getLogger(__name__)
 @dataclass
 class ExampleAPIData:
     """Class to hold api data."""
-
-    controller_name: str
-    devices: list[Device]
+    sensor_data: list[SensorData]
+    sensor_config: list[Sensor]
 
 
 class ExampleCoordinator(DataUpdateCoordinator):
@@ -61,6 +59,7 @@ class ExampleCoordinator(DataUpdateCoordinator):
 
         # Initialise your api here
         self.heat_pump = HeatPump(self.host, self.pwd)
+        self.data.sensor_config = SENSORS
 
     async def async_update_data(self):
         """Fetch data from API endpoint.
@@ -68,30 +67,11 @@ class ExampleCoordinator(DataUpdateCoordinator):
         This is the place to pre-process the data to lookup tables
         so entities can quickly look up their data.
         """
-        try:
-            if not self.api.connected:
-                await self.hass.async_add_executor_job(self.api.connect)
-            devices = await self.hass.async_add_executor_job(self.api.get_devices)
-        except APIAuthError as err:
-            _LOGGER.error(err)
-            raise UpdateFailed(err) from err
-        except Exception as err:
-            # This will show entities as unavailable by raising UpdateFailed exception
-            raise UpdateFailed(f"Error communicating with API: {err}") from err
+        sensor_list = SENSORS
+        sensor_data = self.heat_pump.sensor_data
 
         # What is returned here is stored in self.data by the DataUpdateCoordinator
-        return ExampleAPIData(self.api.controller_name, devices)
-
-    def get_device_by_id(
-        self, device_type: DeviceType, device_id: int
-    ) -> Device | None:
-        """Return device by device id."""
-        # Called by the binary sensors and sensors to get their updated data from self.data
-        try:
-            return [
-                device
-                for device in self.data.devices
-                if device.device_type == device_type and device.device_id == device_id
-            ][0]
-        except IndexError:
-            return None
+        return ExampleAPIData(
+            sensor_data=sensor_data,
+            sensor_config=sensor_list,
+        )
