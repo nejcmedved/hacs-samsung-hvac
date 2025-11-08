@@ -37,8 +37,6 @@ class ExampleCoordinator(DataUpdateCoordinator):
 
         # Set variables from values entered in config flow setup
         self.host = config_entry.data[CONF_HOST]
-        self.user = config_entry.data[CONF_USERNAME]
-        self.pwd = config_entry.data[CONF_PASSWORD]
 
         # set variables from options.  You need a default here incase options have not been set
         self.poll_interval = config_entry.options.get(
