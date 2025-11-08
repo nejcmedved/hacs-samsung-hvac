@@ -55,8 +55,10 @@ class ExampleCoordinator(DataUpdateCoordinator):
             update_interval=timedelta(seconds=self.poll_interval),
         )
 
+        self.port: int = 3000  # Default port for the heat pump
+        
         # Initialise your api here
-        self.heat_pump = HeatPump(self.host, self.pwd)
+        self.heat_pump = HeatPump(self.host, self.port)
 
     async def async_update_data(self):
         """Fetch data from API endpoint.
