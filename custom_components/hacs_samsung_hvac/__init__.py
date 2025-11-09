@@ -18,7 +18,8 @@ from .coordinator import ExampleCoordinator
 
 _LOGGER = logging.getLogger(__name__)
 
-PLATFORMS: list[Platform] = [Platform.BINARY_SENSOR, Platform.SENSOR]
+# for now we only have sensors, so only set up the sensor platform.
+PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 
 @dataclass
