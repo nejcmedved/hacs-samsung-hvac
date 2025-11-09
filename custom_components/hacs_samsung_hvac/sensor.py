@@ -59,7 +59,7 @@ class ExampleSensor(CoordinatorEntity, SensorEntity):
     def _handle_coordinator_update(self) -> None:
         """Update sensor with latest data from coordinator."""
         # This method is called by your DataUpdateCoordinator when a successful update runs.
-        _LOGGER.debug("update: %s", json.dumps(self.sensor_entry, indent=2))
+        _LOGGER.debug("update: %s", self.sensor_entry.id)
         self.async_write_ha_state()
 
     @property
