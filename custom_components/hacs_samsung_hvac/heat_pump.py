@@ -21,15 +21,15 @@ class Sensor:
     id: str
     type: SensorType
     name: str
-
+    value: str | bool | int | float | None = None
     def __str__(self) -> str:
         """Return string representation of the sensor."""
         return f"{self.name} ({self.type})"
 
 
 SENSORS: List[Sensor] = [
-    Sensor(id="outdoor_temp", type=SensorType.TEMP_SENSOR, name="Outdoor temperature"),
-    Sensor(id="comm_state", type=SensorType.BINARY_SENSOR, name="Communication state"),
+    Sensor(id="outdoor_temp", type=SensorType.TEMP_SENSOR, name="Outdoor temperature", value=None),
+    Sensor(id="comm_state", type=SensorType.BINARY_SENSOR, name="Communication state", value=None),
 ]
 
 @dataclass
