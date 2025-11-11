@@ -15,9 +15,8 @@ from homeassistant.config_entries import (
 )
 from homeassistant.const import (
     CONF_HOST,
-    CONF_PASSWORD,
     CONF_SCAN_INTERVAL,
-    CONF_USERNAME,
+    CONF_PORT,
 )
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.exceptions import HomeAssistantError
@@ -29,7 +28,8 @@ _LOGGER = logging.getLogger(__name__)
 # TODO adjust the data schema to the data that you need
 STEP_USER_DATA_SCHEMA = vol.Schema(
     {
-        vol.Required(CONF_HOST, description={"suggested_value": "10.10.10.1"}): str,
+        vol.Required(CONF_HOST, description={"suggested_value": "192.168.1.150"}): str,
+        vol.Required(CONF_PORT, default=502): int,  # <--- add this
     }
 )
 
@@ -46,7 +46,7 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
     # await hass.async_add_executor_job(
     #     your_validate_func, data[CONF_USERNAME], data[CONF_PASSWORD]
     # )
-    return {"title": f"Example Integration - {data[CONF_HOST]}"}
+    return {"title": f"Example Integration - {data[CONF_HOST]}:{data[CONF_PORT]}"}
 
 
 class ExampleConfigFlow(ConfigFlow, domain=DOMAIN):
@@ -110,8 +110,7 @@ class ExampleConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
         if user_input is not None:
-            try:
-                user_input[CONF_HOST] = config_entry.data[CONF_HOST]
+            try:                
                 await validate_input(self.hass, user_input)
             except CannotConnect:
                 errors["base"] = "cannot_connect"
@@ -131,10 +130,9 @@ class ExampleConfigFlow(ConfigFlow, domain=DOMAIN):
             step_id="reconfigure",
             data_schema=vol.Schema(
                 {
-                    vol.Required(
-                        CONF_USERNAME, default=config_entry.data[CONF_USERNAME]
-                    ): str,
-                    vol.Required(CONF_PASSWORD): str,
+                    vol.Required(CONF_HOST, default=config_entry.data[CONF_HOST]): str,
+                    vol.Required(CONF_PORT, default=config_entry.data.get(CONF_PORT, 502)): int,
+                    vol.Required(CONF_SCAN_INTERVAL, default=config_entry.data.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL)): int,
                 }
             ),
             errors=errors,
@@ -164,6 +162,8 @@ class ExampleOptionsFlowHandler(OptionsFlow):
                     CONF_SCAN_INTERVAL,
                     default=self.options.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL),
                 ): (vol.All(vol.Coerce(int), vol.Clamp(min=MIN_SCAN_INTERVAL))),
+                vol.Required(CONF_HOST, default=self.options.get(CONF_HOST, "192.168.1.1")): str,
+                vol.Required(CONF_PORT, default=self.options.get(CONF_PORT, 502)): int,
             }
         )
 

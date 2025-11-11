@@ -80,8 +80,8 @@ class ExampleSensor(CoordinatorEntity, SensorEntity):
         # If your device connects via another device, add via_device parameter with the indentifiers of that device.
         return DeviceInfo(
             name=f"Samsung HVAC",
-            manufacturer="ACME Manufacturer",
-            model="Door&Temp v1",
+            manufacturer="Samsung",
+            model="Heat Pump",
             sw_version="1.0",
             identifiers={
                 (
