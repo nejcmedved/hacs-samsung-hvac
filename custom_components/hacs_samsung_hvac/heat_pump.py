@@ -50,6 +50,7 @@ class HeatPump(threading.Thread):
         self._is_running = False
         self.daemon = True
         self.sensor_data: List[SensorData] = []
+        
         self.start()    
             
     def run(self):

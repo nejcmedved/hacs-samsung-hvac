@@ -7,7 +7,7 @@ import logging
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
     CONF_HOST,
-    CONF_PASSWORD,
+    CONF_PORT,
     CONF_SCAN_INTERVAL,
     CONF_USERNAME,
 )
@@ -55,7 +55,7 @@ class ExampleCoordinator(DataUpdateCoordinator):
             update_interval=timedelta(seconds=self.poll_interval),
         )
 
-        self.port: int = 3000  # Default port for the heat pump
+        self.port: int = config_entry.data[CONF_PORT]  # Default port for the heat pump
         
         # Initialise your api here
         self.heat_pump = HeatPump(self.host, self.port)
